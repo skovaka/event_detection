@@ -8,7 +8,6 @@
 #include <getopt.h>
 
 #include "event_detector.hpp"
-#include "arg_parse.hpp"
 
 int main(int argc, char** argv) {
     static struct option long_opts[] = {
