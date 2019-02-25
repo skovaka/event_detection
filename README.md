@@ -1,4 +1,4 @@
-# event_detection
+# Event Detection
 
 Detects events from raw signal in nanopore fast5 files
 
@@ -20,6 +20,7 @@ Optional arguments:
 * `--win-len1 = 3`
 * `--win-len2 = 6`
 * `--thresh1 = 1.4`
+* `--thresh2 = 9.0`
 * `--peak-height = 0.2`
 * `--min-mean = 30` (events with lower mean pA will not be output)
 * `--max-mean = 150` (events with higher mean pA will not be output)
