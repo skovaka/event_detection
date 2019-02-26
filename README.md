@@ -24,5 +24,7 @@ Optional arguments:
 * `--peak-height = 0.2`
 * `--min-mean = 30` (events with lower mean pA will not be output)
 * `--max-mean = 150` (events with higher mean pA will not be output)
+* `--raw-start = 0` (first sample to use for event detection)
+* `--raw-len = <FULL LENGTH>` (number of samples to use for event detection)
 
 I don't have a great understanding of the first four parameters, beyond that the average event length seems to be between `win-len1` and `win-len2`. I will work on this.
