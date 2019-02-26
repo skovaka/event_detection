@@ -17,9 +17,8 @@
 
 typedef Detector *DetectorPtr;
 
-EventDetector::EventDetector(
-    const EventParams &event_params = event_detection_defaults
-    ) : params (event_params),
+EventDetector::EventDetector(const EventParams &event_params)
+  : params (event_params),
     BUF_LEN (1 + event_params.window_length2 * 2) {
 
     sum = new double[BUF_LEN];
