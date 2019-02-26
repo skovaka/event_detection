@@ -18,10 +18,14 @@ int main(int argc, char** argv) {
         {"peak-height", required_argument,0,0},
         {"min-mean",    required_argument,0,0},
         {"max-mean",    required_argument,0,0},
+        {"raw-start",    required_argument,0,0},
+        {"raw-len",    required_argument,0,0},
         {0,0,0,0}
     };
 
     EventParams params = event_detection_defaults;
+
+    u32 raw_start = 0, raw_len = 0;
 
     while (1) {
         int opt_i;
@@ -41,6 +45,8 @@ int main(int argc, char** argv) {
         if (opt == "peak-height") params.peak_height = std::atof(optarg);
         if (opt == "min-mean") params.min_mean = std::atof(optarg);
         if (opt == "max-mean") params.max_mean = std::atof(optarg);
+        if (opt == "raw-start") raw_start = std::atoi(optarg);
+        if (opt == "raw-len") raw_len = std::atoi(optarg);
     }
 
     if (optind == argc) {
@@ -65,16 +71,19 @@ int main(int argc, char** argv) {
                       << filename << "'\n";
         }
 
-        std::vector<Event> events = ed.add_samples(file.get_raw_samples());
+        std::vector<float> raw = file.get_raw_samples();
 
-        for (size_t i = 0; i < events.size(); i++) {
-            Event e = events[i];
-            std::cout << e.mean << "\t" 
-                      << e.stdv << "\t"
-                      << e.length << "\t"
-                      << e.start  << "\n"; 
+        if (raw_len == 0) raw_len = raw.size();
+
+        for (u32 i = raw_start; i < raw_start+raw_len; i++) {
+            if (ed.add_sample(raw[i])) {
+                Event e = ed.get();
+                std::cout << e.mean << "\t" 
+                          << e.stdv << "\t"
+                          << e.length << "\t"
+                          << (raw_start+e.start)  << "\n"; 
+            }
         }
-        
 
     } catch (hdf5_tools::Exception& e) {
         std::cerr << "Error: hdf5 exception '" << e.what() << "'\n";
